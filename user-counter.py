@@ -5,6 +5,7 @@ from discord.ext.commands import Bot
 from discord.ext import commands
 import platform
 import pprint
+import sys
 
 # Here you can modify the bot's prefix and description and wether it sends help in direct messages or not.
 client = Bot(description="user-counter by iggnore", command_prefix=">", pm_help = False)
@@ -52,7 +53,7 @@ async def on_ready():
 	print('Use this link to invite {}:'.format(client.user.name))
 	print('https://discordapp.com/oauth2/authorize?client_id={}&scope=bot&permissions=8'.format(client.user.id))
 
-client.run('NDExMzk4MTMyMjYyMzcxMzMy.DV7IXw.F0sPK04sWSTF0ArqCe34ESTqz08')
+client.run(sys.argv[1])
 
 # The help command is currently set to be not be Direct Messaged.
 # If you would like to change that, change "pm_help = False" to "pm_help = True" on line 9.
