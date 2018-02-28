@@ -22,27 +22,28 @@ async def on_ready():
 
 	output_names = open("./sag_names.txt", "w");
 	output_mentions = open("./sag_mentions.txt", "w");
-	
 
 	for s in client.servers:
-		if int(s.id) == 306878380777799682:
-			await asyncio.sleep(3)
-			
-			users = 0;
-			messages = 0;	
-			for member in s.members:
-				if not member.bot:
-					if (len(buff)+len(member.display_name)+2) >= max_message_length:
-						output_mentions.write(buff)
-						output_mentions.write('\n\n')
-						buff = ''
-						messages += 1
+		if int(s.id) != 306878380777799682:
+			continue
 
-					users += 1
-					buff += member.mention + ' '
-					output_names.write(member.display_name + '\n')
+		await asyncio.sleep(3)
 
+		users = 0;
+		messages = 0;
+		for member in s.members:
+			if member.bot:
+				continue
 
+			if (len(buff)+len(member.display_name)+2) >= max_message_length:
+				output_mentions.write(buff)
+				output_mentions.write('\n\n')
+				buff = ''
+				messages += 1
+
+			users += 1
+			buff += member.mention + ' '
+			output_names.write(member.display_name + '\n')
 
 	print('{} {}'.format(users, messages))
 	output_names.close()
