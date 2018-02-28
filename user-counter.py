@@ -53,7 +53,7 @@ async def on_ready():
 	print('Use this link to invite {}:'.format(client.user.name))
 	print('https://discordapp.com/oauth2/authorize?client_id={}&scope=bot&permissions=8'.format(client.user.id))
 
-client.run(sys.argv[1])
+client.run(str(sys.argv[1]))
 
 # The help command is currently set to be not be Direct Messaged.
 # If you would like to change that, change "pm_help = False" to "pm_help = True" on line 9.
