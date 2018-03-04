@@ -49,7 +49,7 @@ async def on_message(message):
 	two   = indeces[-2]
 	three = indeces[-3]
 
-	embed = discord.Embed(title="Weekly Challenge Results", description="@everyone congratulations to our <#{}> winner!".format(message.channel.id), color=discord.Colour.blue())
+	embed = discord.Embed(title="Weekly Challenge Results", description="Congratulations to our <#{}> winner!".format(message.channel.id), color=discord.Colour.blue())
 	embed.add_field(name="First Place", value="<@!{}> - {}".format(authors[one].id, votes[one]), inline=True)
 	embed.add_field(name="Second Place", value="<@!{}> - {}".format(authors[two].id, votes[two]), inline=True)
 	embed.add_field(name="Third Place", value="<@!{}> - {}".format(authors[three].id, votes[three]), inline=True)
