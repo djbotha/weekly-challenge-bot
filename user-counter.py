@@ -4,57 +4,45 @@ import asyncio
 from discord.ext.commands import Bot
 from discord.ext import commands
 import platform
-import pprint
 import sys
 
-# Here you can modify the bot's prefix and description and wether it sends help in direct messages or not.
-client = Bot(description="user-counter by iggnore", command_prefix=">", pm_help = False)
-serverid = 411402280060059648
-max_message_length = 1980
+# setup Bot
+client = Bot(description="Weekly Challenge Judge by iggnore", command_prefix=">", pm_help = False)
 
-# This is what happens everytime the bot launches. In this case, it prints information like server count, user count the bot is connected to, and the bot id in the console.
-# Do not mess with it because the bot can break, if you wish to do so, please consult me or someone trusted.
 @client.event
 async def on_ready():
-	buff = '\0'
+	
 	print('Logged in as '+client.user.name+' (ID:'+client.user.id+') | Connected to '+str(len(client.servers))+' servers | Connected to '+str(len(set(client.get_all_members())))+' users')
 
 	print('--------')
 
-	output_names = open("./sag_names.txt", "w");
-	output_mentions = open("./sag_mentions.txt", "w");
-
-	for s in client.servers:
-		if int(s.id) != 306878380777799682:
-			continue
-
-		await asyncio.sleep(3)
-
-		users = 0;
-		messages = 0;
-		for member in s.members:
-			if member.bot:
-				continue
-
-			if (len(buff)+len(member.display_name)+2) >= max_message_length:
-				output_mentions.write(buff)
-				output_mentions.write('\n\n')
-				buff = ''
-				messages += 1
-
-			users += 1
-			buff += member.mention + ' '
-			output_names.write(member.display_name + '\n')
-
-	print('{} {}'.format(users, messages))
-	output_names.close()
-	output_mentions.close()
-
-	print('--------')
 	print('Use this link to invite {}:'.format(client.user.name))
 	print('https://discordapp.com/oauth2/authorize?client_id={}&scope=bot&permissions=8'.format(client.user.id))
 
-client.run(str(sys.argv[1]))
+# Counts entries in #weekly-challenges
+@client.event
+async def on_message(message):
+	if not message.content.startswith('>count'):
+		return
+	
+	async for message in client.logs_from(message.channel):
+		for attachment in message.attachments:
+			if not attachment:
+				continue
 
-# The help command is currently set to be not be Direct Messaged.
-# If you would like to change that, change "pm_help = False" to "pm_help = True" on line 9.
+			print(message.author)
+			print(attachment['url'])
+			
+			for reaction in message.reactions:
+				if reaction.emoji == '❤':
+					print(reaction.count)
+
+			print('--')
+
+	embed = discord.Embed(title="Weekly Challenge Results", description="Congratulations to our #weekly-challenge winner!", color=discord.Colour.blue())
+	embed.add_field(name="Fist Place", value="Xenorra - {} votes".format(21), inline=True)
+	embed.add_field(name="Second Place", value="iggnore - {} votes".format(20), inline=True)
+	embed.add_field(name="Third Place", value="Malachaai - {} votes".format(10), inline=True)
+
+	await client.send_message(message.channel, embed=embed)
+client.run(str(sys.argv[1])) # Send API key via command line arguments
