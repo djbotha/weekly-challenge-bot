@@ -1,3 +1,4 @@
 client_secret.json
 discord_key.txt
 *.txt
+*.pem
