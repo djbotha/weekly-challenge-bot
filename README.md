@@ -9,16 +9,16 @@ This bot was written in python3 using [discord.py](https://github.com/Rapptz/dis
 ### Step 1
 Install `discord.py`:
 
-```python
+```
 python3 -m pip install -U discord.py
 ```
 
 ### Step 2
 Install `numpy`:
-```python
+```
 python3 -m pip install numpy -v
 ```
-I added the `-v` vlag so the installation process will show all steps due to numpy being a very large library (and way overkill for our application).
+I added the `-v` vlag so the installation process will show all steps due to numpy being a very large library (and way too overkill for our application).
 
 ### Step 3
 Get your discord API key:
@@ -29,11 +29,12 @@ Get your discord API key:
 - Click `create app`
 - On the next page, click `create a bot user`
 - Under the `Bot` section, click `click to reveal` next to `token` to get your API key. 
+- Save your API key in a file called `discord_key.txt` in the root directory of your project.
 
 ### Step 4
 To run your application, type the following in your terminal:
-```python
-python3 weekly-challenge.py <API KEY HERE>
+```
+python3 weekly-challenge.py
 ```
 
 ### Step 5

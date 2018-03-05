@@ -10,11 +10,26 @@ from numpy import argsort
 # setup Bot
 client = Bot(description="Weekly Challenge Judge by iggnore", command_prefix=">", pm_help = False)
 
+# open private key file
+key_file = open('./discord_key.txt', 'r')
+if not key_file:
+	print('File discord_key.txt can\'t be found')
+	sys.exit(0)
+
+# read private key from file
+api_key = key_file.read().splitlines()[0]
+if not api_key:
+	print('No API key in discord_key.txt')
+	sys.exit(0)
+
+# close private key file
+key_file.close()
 @client.event
 async def on_ready():
 	print('Logged in as '+client.user.name+' (ID:'+client.user.id+') | Connected to '+str(len(client.servers))+' servers | Connected to '+str(len(set(client.get_all_members())))+' users')
 
 	print('--------')
+	
 	
 	print('Use this link to invite {}:'.format(client.user.name))
 	print('https://discordapp.com/oauth2/authorize?client_id={}&scope=bot&permissions=8'.format(client.user.id))
@@ -70,4 +85,4 @@ async def on_message(message):
 	# make rich embedded announcement in the server's announcement channel
 	await client.send_message(announcement_channel, embed=embed)
 
-client.run(str(sys.argv[1])) # Send API key via command line arguments
+client.run(str(api_key[0])) # Send API key from opened file
