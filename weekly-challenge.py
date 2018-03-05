@@ -61,8 +61,13 @@ async def on_message(message):
 	embed.add_field(name="Third Place", value="<@!{}> - {}".format(authors[three].id, votes[three]), inline=True)
 	embed.set_footer(text='Thank you for all your entries! The next weekly challenge will be announced shortly.')
 
+	# make a small announcement in the current channel
 	await client.send_message(message.channel, content='Results posted in <#{}>!'.format(announcement_channel.id))
+	
+	# send a PM to the winner
+	await client.send_message(authors[one], content='Hey {} - congratulations! You\'re the winner of this week\'s weekly challenge! A mod will DM you shortly with your prize.'.format(authors[one].name))
 
+	# make rich embedded announcement in the server's announcement channel
 	await client.send_message(announcement_channel, embed=embed)
 
 client.run(str(sys.argv[1])) # Send API key via command line arguments
