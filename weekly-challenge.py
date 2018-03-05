@@ -5,7 +5,7 @@ from discord.ext.commands import Bot
 from discord.ext import commands
 import platform
 import sys
-import numpy as np
+from numpy import argsort
 
 # setup Bot
 client = Bot(description="Weekly Challenge Judge by iggnore", command_prefix=">", pm_help = False)
@@ -38,16 +38,22 @@ async def on_message(message):
 
 			authors.append(message.author)
 			urls.append(attachment['url'])		
-
+			
+			contains_emoji = False
 			for reaction in message.reactions:
 				if reaction.emoji == '❤':
 					votes.append(reaction.count)
+					contains_emoji = True
+					break
 
-	indeces = np.argsort(votes)
+			if not contains_emoji:
+				votes.append(0)
 
-	one   = indeces[-1]
-	two   = indeces[-2]
-	three = indeces[-3]
+	indices = argsort(votes)
+
+	one   = indices[-1]
+	two   = indices[-2]
+	three = indices[-3]
 
 	embed = discord.Embed(title="Weekly Challenge Results", description="Congratulations to our <#{}> winner!".format(message.channel.id), color=discord.Colour.blue())
 	embed.add_field(name="First Place", value="<@!{}> - {}".format(authors[one].id, votes[one]), inline=True)
