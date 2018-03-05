@@ -39,6 +39,7 @@ python3 weekly-challenge.py <API KEY HERE>
 ### Step 5
 To use the bot in your discord server, change the specified fields in `weekly-challenge.py` to the channel you'd like.
 Then, run `>count` in your channel and the bot will return a nicely formatted list, looking like this:
+
 ![screenshot](https://i.imgur.com/xJG95uA.png)
 
 Feel free to PM me on Discord at `iggnore#0146` if you have any issues.
