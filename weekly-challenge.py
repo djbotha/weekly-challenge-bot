@@ -85,4 +85,4 @@ async def on_message(message):
 	# make rich embedded announcement in the server's announcement channel
 	await client.send_message(announcement_channel, embed=embed)
 
-client.run(str(api_key[0])) # Send API key from opened file
+client.run(str(api_key)) # Send API key from opened file
