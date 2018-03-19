@@ -1,4 +1,6 @@
-client_secret.json
-discord_key.txt
+*.json
 *.txt
 *.pem
+images/
+*.yaml
+__pycache__/
