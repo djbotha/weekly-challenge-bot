@@ -4,12 +4,12 @@ from pydrive.drive import GoogleDrive
 from os import listdir
 import time
 
+gauth = GoogleAuth()
+gauth.LocalWebserverAuth() # Creates local webserver and auto handles authentication.
+
+drive = GoogleDrive(gauth)
+
 def upload():
-	gauth = GoogleAuth()
-	gauth.LocalWebserverAuth() # Creates local webserver and auto handles authentication.
-
-	drive = GoogleDrive(gauth)
-
 	images_ID = '1IK4vQNnh7cA6Xnin1WRrzIOhGsAOk-4q' # ID for "root" folder
 	weekly_folder_name  = time.strftime('%d-%m-%Y') 
 
