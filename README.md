@@ -20,7 +20,7 @@ Install `numpy`:
 ```
 python3 -m pip install numpy -v
 ```
-I added the `-v` vlag so the installation process will show all steps due to numpy being a very large library (and way too overkill for our application).
+I added the `-v` flag so the installation process will show all steps due to numpy being a very large library (and way too overkill for our application).
 
 ### Step 3
 Install [PyDrive](http://pythonhosted.org/PyDrive/quickstart.html) and get your Google Drive API credentials.
