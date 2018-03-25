@@ -8,10 +8,11 @@ gauth = GoogleAuth()
 gauth.LocalWebserverAuth() # Creates local webserver and auto handles authentication.
 
 drive = GoogleDrive(gauth)
-
 def upload():
 	images_ID = '1IK4vQNnh7cA6Xnin1WRrzIOhGsAOk-4q' # ID for "root" folder
 	weekly_folder_name  = time.strftime('%d-%m-%Y') 
+	urls = []
+	names = []
 
 	folder = drive.CreateFile({'title': weekly_folder_name, 'mimeType': 'application/vnd.google-apps.folder', 'parents': [{'id': images_ID}]}) # create a folder named 'dd-mm-YYYY' in /images/ 
 	folder.Upload()
@@ -21,5 +22,8 @@ def upload():
 		temp = drive.CreateFile({'title': str(f), 'parents': [{'id': folder['id']}]}) # upload each image in the newly created folder 
 		temp.SetContentFile(weekly_folder_dir+str(f)) 
 		temp.Upload()
+		urls.append(temp['alternateLink'])
+		names.append(temp['title'][:-4])
 	
-	return folder['alternateLink']
+	return folder['alternateLink'], urls, names
+
