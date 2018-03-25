@@ -8,6 +8,7 @@ import requests
 import os
 import time
 import uploader
+import sheets
 from numpy import argsort
 
 # setup Bot
@@ -50,12 +51,12 @@ async def on_ready():
 # Counts entries in #weekly-challenges
 @client.event
 async def on_message(message):
+	if not message.content.startswith('>count'):
+		return
+
 	authors	= [] 
 	urls	= []
 	votes	= []
-
-	if not message.content.startswith('>count'):
-		return
 	
 	announcement_channel = client.get_channel('306891494726303746')
 
@@ -89,11 +90,11 @@ async def on_message(message):
 	message = await client.send_message(message.channel, content='Downloads done.')
 	await client.delete_message(message)
 	message = await client.send_message(message.channel, content='Uploading images...')
-	link = uploader.upload()	# upload images to Google Drive
+	folder_url, image_urls, image_names = uploader.upload()	# upload images to Google Drive
 	await client.delete_message(message)
 	message = await client.send_message(message.channel, content='Uploads done.')
 	await client.delete_message(message)
-	message = await client.send_message(message.channel, content='Images available at {} !'.format(link))
+	message = await client.send_message(message.channel, content='Images available at {} !'.format(folder_url))
 
 	embed = discord.Embed(title="Weekly Challenge Results", description="Congratulations to our <#{}> winner!".format(message.channel.id), color=discord.Colour.blue())
 	embed.add_field(name="First Place", value="<@!{}> - {}".format(authors[first].id, votes[first]), inline=True)
@@ -109,5 +110,7 @@ async def on_message(message):
 
 	# make rich embedded announcement in the server's announcement channel
 	await client.send_message(announcement_channel, embed=embed)
+
+	sheets.upload(authors, image_urls, image_names, votes, first)
 
 client.run(str(api_key)) # Send API key from opened file

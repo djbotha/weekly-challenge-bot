@@ -4,3 +4,4 @@
 images/
 *.yaml
 __pycache__/
+quickstart.py
