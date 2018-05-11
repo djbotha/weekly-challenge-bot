@@ -1,21 +1,21 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pprint
-import time 
+import time
 import sys
 
- 
-def upload(users, urls, image_names, votes, winner_idx):
-        dirname = time.strftime('%d-%m-%Y') 
 
-        # use creds to create a client to interact with the Google Drive API
-        scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-        creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret_sheets.json', scope)
-        client = gspread.authorize(creds)
- 
-        # Find a workbook by name and open the first sheet
-        # Make sure you use the right name here.
-        sheet = client.open("SAG-weekly-challenges")
+def upload(users, urls, image_names, votes, winner_idx):
+	dirname = time.strftime('%d-%m-%Y')
+
+	# use creds to create a client to interact with the Google Drive API
+	scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+	creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret_sheets.json', scope)
+	client = gspread.authorize(creds)
+
+	# Find a workbook by name and open the first sheet
+	# Make sure you use the right name here.
+	sheet = client.open("SAG-weekly-challenges")
 	homesheet = sheet.sheet1
 	row  = homesheet.find(dirname).row
 	week = homesheet.cell(row, 1).value
@@ -42,6 +42,6 @@ def upload(users, urls, image_names, votes, winner_idx):
 	homesheet.update_cell(row, 7, sum(votes))
 	homesheet.update_cell(row, 8, users[winner_idx].name)
 	for j in range(len(image_names)):
-		if users[winner_idx].name.startswith(image_names[j]):
-			homesheet.update_cell(row, 9, urls[j])
-			break
+			if users[winner_idx].name.startswith(image_names[j]):
+					homesheet.update_cell(row, 9, urls[j])
+					break
