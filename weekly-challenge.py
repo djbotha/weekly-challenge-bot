@@ -46,7 +46,7 @@ async def on_ready():
 	print('--------')
 	
 	print('Use this link to invite {}:'.format(client.user.name))
-	print('https://discordapp.com/oauth2/authorize?client_id={}&scope=bot&permissions=8'.format(client.user.id))
+	print('https://discordapp.com/oauth2/authorize?client_id={}&scope=bot&permissions=9'.format(client.user.id))
 
 # Counts entries in #weekly-challenges
 @client.event
@@ -59,12 +59,10 @@ async def on_message(message):
 	votes	= []
 	
 	announcement_channel = client.get_channel('306891494726303746')
+	#announcement_channel = client.get_channel('444401156693819402')
 
 	async for message in client.logs_from(message.channel):
 		for attachment in message.attachments:
-			if not attachment:
-				continue
-
 			authors.append(message.author)
 			urls.append(attachment['url'])		
 			
@@ -84,18 +82,6 @@ async def on_message(message):
 	second  = indices[-2]
 	third	= indices[-3]
 	
-	message = await client.send_message(message.channel, content='Downloading images...')
-	downloadimgs(authors, urls) # download images from cdn.discordapp.com
-	await client.delete_message(message)
-	message = await client.send_message(message.channel, content='Downloads done.')
-	await client.delete_message(message)
-	message = await client.send_message(message.channel, content='Uploading images...')
-	folder_url, image_urls, image_names = uploader.upload()	# upload images to Google Drive
-	await client.delete_message(message)
-	message = await client.send_message(message.channel, content='Uploads done.')
-	await client.delete_message(message)
-	message = await client.send_message(message.channel, content='Images available at {} !'.format(folder_url))
-
 	embed = discord.Embed(title="Weekly Challenge Results", description="Congratulations to our <#{}> winner!".format(message.channel.id), color=discord.Colour.blue())
 	embed.add_field(name="First Place", value="<@!{}> - {}".format(authors[first].id, votes[first]), inline=True)
 	embed.add_field(name="Second Place", value="<@!{}> - {}".format(authors[second].id, votes[second]), inline=True)
@@ -111,6 +97,16 @@ async def on_message(message):
 	# make rich embedded announcement in the server's announcement channel
 	await client.send_message(announcement_channel, embed=embed)
 
+	print('Downloading images.')
+	downloadimgs(authors, urls) 
+
+	print('Uploading images.')
+	folder_url, image_urls, image_names = uploader.upload()
+
+	print('Uploads done, available at {}'.format(folder_url))
+
+	print('Updating sheet.')
 	sheets.upload(authors, image_urls, image_names, votes, first)
+	print('Sheet updated.')
 
 client.run(str(api_key)) # Send API key from opened file
