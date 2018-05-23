@@ -53,7 +53,7 @@ async def on_ready():
 async def on_message(message):
 	if not message.content.startswith('>count'):
 		return
-
+	
 	authors	= [] 
 	urls	= []
 	votes	= []
@@ -69,6 +69,7 @@ async def on_message(message):
 			contains_emoji = False
 			for reaction in message.reactions:
 				if reaction.emoji == '❤':
+
 					votes.append(reaction.count)
 					contains_emoji = True
 					break
