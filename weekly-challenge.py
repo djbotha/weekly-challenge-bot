@@ -110,4 +110,9 @@ async def on_message(message):
 	sheets.upload(authors, image_urls, image_names, votes, first)
 	print('Sheet updated.')
 
+async def dontcrash():
+    channels = client.get_all_channels()
+    asyncio.sleep(50)
+
+client.loop.create_task(dontcrash())
 client.run(str(api_key)) # Send API key from opened file
