@@ -60,6 +60,7 @@ async def on_message(message):
 	
 	announcement_channel = client.get_channel('306891494726303746')
 	#announcement_channel = client.get_channel('444401156693819402')
+	
 
 	async for message in client.logs_from(message.channel):
 		for attachment in message.attachments:
@@ -87,7 +88,8 @@ async def on_message(message):
 	embed.add_field(name="First Place", value="<@!{}> - {}".format(authors[first].id, votes[first]), inline=True)
 	embed.add_field(name="Second Place", value="<@!{}> - {}".format(authors[second].id, votes[second]), inline=True)
 	embed.add_field(name="Third Place", value="<@!{}> - {}".format(authors[third].id, votes[third]), inline=True)
-	embed.set_footer(text='Thank you for all your entries! The next weekly challenge will be announced shortly.')
+	embed.set_image(url=str(urls[first]))
+	embed.set_footer(text='Thank you for all your entries! This week we had {} entries and {} votes. The next weekly challenge will be announced shortly.'.format(str(len(authors)), str(sum(votes))))
 
 	# make a small announcement in the current channel
 	await client.send_message(message.channel, content='Results posted in <#{}>!'.format(announcement_channel.id))
